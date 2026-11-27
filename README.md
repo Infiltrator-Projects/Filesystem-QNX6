@@ -26,7 +26,7 @@ Independent QNX6 images, conflicting superblocks, invalid checksums and interrup
 
 ## 7. Technical references and provenance
 
-- [Technical reference (PDF)](docs/QNX6.pdf) — original-format technical reference with historical appendices and [PDF stream source](docs/QNX6.pdfstreams); not an operational manual.
+- [Technical reference (PDF)](docs/QNX6.pdf) — original-format technical reference as one integrated manual and [PDF stream source](docs/QNX6.pdfstreams); not an operational manual.
 
 - [Pinned central source baseline](https://github.com/Infiltrator-Projects/Filesystems/tree/101026021d9088d80b7f0f472d9061f0e2c688a3/native/filesystems/qnx6)
 - [Native design](native/filesystems/qnx6/DESIGN.md)
@@ -35,4 +35,4 @@ Independent QNX6 images, conflicting superblocks, invalid checksums and interrup
 - [Project philosophy](docs/PHILOSOPHY.md)
 - [Common ABI](https://github.com/Infiltrator-Projects/Libraries)
 
-Preserve inherited notices and licences on source extraction; new project-authored code uses GPL-3.0-or-later. The [technical reference](docs/QNX6-TECHNICAL-REFERENCE.md) expands original-format research. The PDF includes both earlier documents as historical appendices; installation remains pending. Central code or test results are not evidence of an independent provider.
+Preserve inherited notices and licences on source extraction; new project-authored code uses GPL-3.0-or-later. The [technical reference](docs/QNX6-TECHNICAL-REFERENCE.md) expands original-format research. installation remains pending. Central code or test results are not evidence of an independent provider.

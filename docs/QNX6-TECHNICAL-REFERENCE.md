@@ -4,6 +4,8 @@
 
 QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in 6.4.1. It replaces QNX4's extent-based in-place update model with a copy-on-write publication model. The filesystem keeps two superblock-rooted committed views and prepares the next view without destroying the previous live one. The ordinary profile and Audi MMI 3G variant have different superblock placement/layout. Both little- and big-endian filesystems exist; determine byte order from validated format markers, not host architecture.
 
+Power-Safe arrived in QNX Neutrino 6.4.0 and became the default in 6.4.1, according to Linux QNX6 documentation. The alternate committed roots are distinct from QNX4's extent model.
+
 ## Block geometry and superblock positions
 
 Admitted logical block sizes are 512, 1024, 2048 and 4096 bytes. In the standard profile the boot area is 8192 bytes, primary superblock at 0x2000, reserved superblock area 4096 bytes and logical block zero at 0x3000. The MMI variant starts its first superblock at byte zero, so block zero begins after its reserved area. A superblock's encoded record is 512 bytes even when the reserved region is larger. The second copy is located from validated declared block count and profile geometry, with alignment requirements checked independently. Pointers are 32-bit block indices; 0xffffffff is unused, not an address. Never include a reserved superblock area in the data allocator.
@@ -44,8 +46,14 @@ A formatter must choose endian profile and block size, lay out boot/reserved reg
 
 Exercise both byte orders, standard and MMI layouts, 512/1024/2048/4096-byte blocks, direct and multi-level indirect trees, missing pointers, out-of-range leaves, incompatible geometry, short and long names, deleted entries, invalid inode references, bitmap padding and conflicting superblocks. Inject failures before each data flush, header publication and after commit. Independent mkqnx6fs images and native QNX reading/checking are the interoperability oracle. Source-level reader parity is not writer or physical crash qualification. Original QNX4 media must be rejected rather than interpreted using QNX6 structures.
 
+## Implementation and qualification boundary
+
+The independent provider uses Common V2: https://github.com/Infiltrator-Projects/Libraries/blob/main/docs/FILESYSTEM_COMMON_ABI_V2.md . Negotiate actual operation masks and media profiles. Distinguish unsupported, corrupt, I/O and stale-handle results. Require bounded host I/O, exclusive unmounted ownership and durable flush before mutation. Test Media and Defragmenter consume the same engine, not separate format parsers. Hosted and freestanding binaries, relocation, recovery, BOOT, kernel integration and packages require separate exact-source evidence. Current support belongs to the repository README and qualification records. The intended package paths are /System/Filesystems/ and /System/Resources/Documentation/; the reference is not an installation or release-status claim.
+
 ## References and implementation boundary
 
 Original QNX Power-Safe architecture: https://www.qnx.com/developers/docs/6.5.0SP1.update/com.qnx.doc.neutrino_sys_arch/fsys.html . Reader format notes: https://docs.kernel.org/filesystems/qnx6.html . Layout cross-check: https://codebrowser.dev/linux/linux/include/linux/qnx6_fs.h.html ; implementation: https://github.com/torvalds/linux/tree/v6.12/fs/qnx6 . Exact checksum polynomial/coverage, MMI long-name validation, all superblock flags and writer-specific allocation rules require primary source/fixture validation. The repository's historical migration and design files define intended Common V2 support, not confirmed operational support.
 
-The PDF preserves both earlier documents as explicitly historical appendices.
+The retained reader decodes magic, checksum and block size under detected disk byte order, with separate inode and long-name state; qualify MMI only with variant-specific evidence.
+
+Retained source: https://github.com/Infiltrator-Projects/Filesystems/blob/101026021d9088d80b7f0f472d9061f0e2c688a3/native/filesystems/qnx6/linux/inode.c (blob 3310d1ad4d).

@@ -1,576 +1,235 @@
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (History and design model) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in) Tj
-T* (6.4.1. It replaces QNX4's extent-based in-place update model with a) Tj
-T* (copy-on-write publication model. The filesystem keeps two superblock-rooted) Tj
-T* (committed views and prepares the next view without destroying the previous) Tj
-T* (live one. The ordinary profile and Audi MMI 3G variant have different) Tj
-T* (superblock placement/layout. Both little- and big-endian filesystems exist;) Tj
-T* (determine byte order from validated format markers, not host architecture.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 1 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 18 Tf 43 736 Td (Contents) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 711 Td (1. History and design model) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 695 Td (2. Block geometry and superblock positions) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 679 Td (3. Standard superblock record) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 663 Td (4. Root nodes and indirect addressing) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 647 Td (5. Inode table and record fields) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 631 Td (6. Worked indirect lookup) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 615 Td (7. Directory and long-name records) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 599 Td (8. Allocation bitmap and system area) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 583 Td (9. Publication, consistency and recovery) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 567 Td (10. Formatting, mutation and defragmentation) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 551 Td (11. Engineering validation and evidence) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 535 Td (12. Implementation and qualification boundary) Tj ET
+0.08 0.14 0.20 rg BT /F1 11 Tf 43 519 Td (13. References and implementation boundary) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 1) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Block geometry and superblock positions) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(Admitted logical block sizes are 512, 1024, 2048 and 4096 bytes. In the) Tj
-T* (standard profile the boot area is 8192 bytes, primary superblock at 0x2000,) Tj
-T* (reserved superblock area 4096 bytes and logical block zero at 0x3000. The MMI) Tj
-T* (variant starts its first superblock at byte zero, so block zero begins after) Tj
-T* (its reserved area. A superblock's encoded record is 512 bytes even when the) Tj
-T* (reserved region is larger. The second copy is located from validated declared) Tj
-T* (block count and profile geometry, with alignment requirements checked) Tj
-T* (independently. Pointers are 32-bit block indices; 0xffffffff is unused, not) Tj
-T* (an address. Never include a reserved superblock area in the data allocator.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 2 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (1. History and design model) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in 6.4.1. It) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (replaces QNX4's extent-based in-place update model with a copy-on-write publication) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (model. The filesystem keeps two superblock-rooted committed views and prepares the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (next view without destroying the previous live one. The ordinary profile and Audi) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (MMI 3G variant have different superblock placement/layout. Both little- and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (big-endian filesystems exist; determine byte order from validated format markers,) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (not host architecture.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 598 Td (Power-Safe arrived in QNX Neutrino 6.4.0 and became the default in 6.4.1, according) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 584 Td (to Linux QNX6 documentation. The alternate committed roots are distinct from QNX4's) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 570 Td (extent model.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 2) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Standard superblock record) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(Relative byte offsets for the standard reader layout: magic 0, checksum 4,) Tj
-T* (64-bit serial 8, creation/access times 16/20, flags 24, two 16-bit versions) Tj
-T* (28/30, 16-byte volume identifier 32, 32-bit block size 48, inode count 52,) Tj
-T* (free inodes 56, block count 60, free blocks 64, allocation-group parameter) Tj
-T* (68. Four 80-byte root nodes begin at 72, 152, 232 and 312, representing inode) Tj
-T* (table, bitmap, long-name storage and an additional format-dependent root. The) Tj
-T* (MMI profile has block size at 40 and first root at 64; do not parse it with) Tj
-T* (the standard offsets. Validate both superblock checksums and compare matching) Tj
-T* (volume identity and geometry; selecting solely the highest serial without) Tj
-T* (structural validation risks a corrupt view.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 3 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (2. Block geometry and superblock positions) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (Admitted logical block sizes are 512, 1024, 2048 and 4096 bytes. In the standard) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (profile the boot area is 8192 bytes, primary superblock at 0x2000, reserved) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (superblock area 4096 bytes and logical block zero at 0x3000. The MMI variant starts) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (its first superblock at byte zero, so block zero begins after its reserved area. A) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (superblock's encoded record is 512 bytes even when the reserved region is larger.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (The second copy is located from validated declared block count and profile) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (geometry, with alignment requirements checked independently. Pointers are 32-bit) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (block indices; 0xffffffff is unused, not an address. Never include a reserved) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (superblock area in the data allocator.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 3) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Root nodes and indirect addressing) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(A root node has 64-bit size at byte 0, sixteen 32-bit block pointers at) Tj
-T* (8..71, addressing depth at 72, mode at 73 and six spare bytes. Data lives at) Tj
-T* (leaves only. At depth d, each of the sixteen root pointers spans) Tj
-T* (\(block_bytes/4\)^d data blocks. To find logical block k, select its top) Tj
-T* (pointer by division by that span, then descend through each indirect block) Tj
-T* (using the successive quotient/remainder of the remaining index. Check every) Tj
-T* (pointer, level, capacity, multiplication and actual read length. In the) Tj
-T* (documented reader, depth is limited to five. An all-ones unused pointer) Tj
-T* (cannot be followed as a real block. Missing leaves require exact native) Tj
-T* (semantics, not fabricated data.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 4 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (3. Standard superblock record) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (Relative byte offsets for the standard reader layout: magic 0, checksum 4, 64-bit) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (serial 8, creation/access times 16/20, flags 24, two 16-bit versions 28/30, 16-byte) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (volume identifier 32, 32-bit block size 48, inode count 52, free inodes 56, block) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (count 60, free blocks 64, allocation-group parameter 68. Four 80-byte root nodes) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (begin at 72, 152, 232 and 312, representing inode table, bitmap, long-name storage) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (and an additional format-dependent root. The MMI profile has block size at 40 and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (first root at 64; do not parse it with the standard offsets. Validate both) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (superblock checksums and compare matching volume identity and geometry; selecting) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (solely the highest serial without structural validation risks a corrupt view.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 4) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Inode table and record fields) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(Each inode is 128 bytes and numbering begins at one; root is inode 1. Inode n) Tj
-T* (resides at byte offset 128*\(n-1\) in the inode-table tree, not at a fixed raw) Tj
-T* (disk offset. Relative fields: 64-bit size at 0, 32-bit UID/GID 8/12,) Tj
-T* (creation/modify/access/change times 16/20/24/28, 16-bit POSIX mode and) Tj
-T* (extended mode 32/34, sixteen 32-bit block pointers 36..99, file addressing) Tj
-T* (depth 100, status 101, remaining bytes reserved or revision-specific. Treat) Tj
-T* (unknown mode and status combinations cautiously. The inode's block tree uses) Tj
-T* (the same addressing principles as a root node. Preserve metadata and) Tj
-T* (distinguish symbolic links, hard-link semantics and ordinary data.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 5 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (4. Root nodes and indirect addressing) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (A root node has 64-bit size at byte 0, sixteen 32-bit block pointers at 8..71,) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (addressing depth at 72, mode at 73 and six spare bytes. Data lives at leaves only.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (At depth d, each of the sixteen root pointers spans \(block_bytes/4\)^d data blocks.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (To find logical block k, select its top pointer by division by that span, then) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (descend through each indirect block using the successive quotient/remainder of the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (remaining index. Check every pointer, level, capacity, multiplication and actual) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (read length. In the documented reader, depth is limited to five. An all-ones unused) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (pointer cannot be followed as a real block. Missing leaves require exact native) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (semantics, not fabricated data.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 5) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Worked indirect lookup) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(For a 1024-byte filesystem block, an indirect block contains 256 pointers. A) Tj
-T* (depth-one file inode covers up to 16*256 logical blocks. Logical block 600) Tj
-T* (uses root pointer index 2 and indirect index 88. If that leaf points to block) Tj
-T* (4200 on standard media, the partition-relative start is 0x3000+4200*1024 =) Tj
-T* (4313088 bytes. Add the byte offset within the logical block, checking file) Tj
-T* (EOF before transfer. At depth two, each root pointer spans 65536 logical) Tj
-T* (blocks; perform two bounded indirect reads. This is a mapping example, not a) Tj
-T* (claim that every file fills the tree.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 6 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (5. Inode table and record fields) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (Each inode is 128 bytes and numbering begins at one; root is inode 1. Inode n) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (resides at byte offset 128*\(n-1\) in the inode-table tree, not at a fixed raw disk) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (offset. Relative fields: 64-bit size at 0, 32-bit UID/GID 8/12,) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (creation/modify/access/change times 16/20/24/28, 16-bit POSIX mode and extended) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (mode 32/34, sixteen 32-bit block pointers 36..99, file addressing depth 100, status) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (101, remaining bytes reserved or revision-specific. Treat unknown mode and status) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (combinations cautiously. The inode's block tree uses the same addressing principles) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (as a root node. Preserve metadata and distinguish symbolic links, hard-link) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (semantics and ordinary data.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 6) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Directory and long-name records) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(A normal directory consists of 32-byte records: 32-bit inode number at 0,) Tj
-T* (name length at 4 and up to 27 name bytes from 5. A length of 0xff selects the) Tj
-T* (long-name record format: three intervening bytes at 5..7, long-name reference) Tj
-T* (at 8 and checksum field at 12. The long-name tree is separate from the inode) Tj
-T* (table, with references numbered from zero. A leaf contains 16-bit byte length) Tj
-T* (followed by name bytes, with up to 510 bytes supported by the documented) Tj
-T* (format. Bound name length to both record and block capacity; verify) Tj
-T* (profile-specific long-name checksum rules and reject invalid embedded) Tj
-T* (separators. Dot and dot-dot must reference self and parent; graph traversal) Tj
-T* (must avoid loops.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 7 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (6. Worked indirect lookup) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (For a 1024-byte filesystem block, an indirect block contains 256 pointers. A) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (depth-one file inode covers up to 16*256 logical blocks. Logical block 600 uses) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (root pointer index 2 and indirect index 88. If that leaf points to block 4200 on) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (standard media, the partition-relative start is 0x3000+4200*1024 = 4313088 bytes.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (Add the byte offset within the logical block, checking file EOF before transfer. At) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (depth two, each root pointer spans 65536 logical blocks; perform two bounded) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (indirect reads. This is a mapping example, not a claim that every file fills the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (tree.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 7) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Allocation bitmap and system area) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(The active superblock's bitmap tree maps one bit to each filesystem block.) Tj
-T* (Padding bits outside actual volume capacity are allocated. The system region) Tj
-T* (is split into two halves, one for each superblock's system metadata. Bitmap) Tj
-T* (and inode tree blocks and their indirect blocks are maintained in the) Tj
-T* (respective system half. Ordinary file data uses the remaining area. Never) Tj
-T* (decide a block is reusable solely from the prospective bitmap: blocks) Tj
-T* (reachable through the committed view must remain intact until publication.) Tj
-T* (Compare both roots' metadata ownership and exact revision rules when deciding) Tj
-T* (reclamation.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 8 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (7. Directory and long-name records) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (A normal directory consists of 32-byte records: 32-bit inode number at 0, name) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (length at 4 and up to 27 name bytes from 5. A length of 0xff selects the long-name) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (record format: three intervening bytes at 5..7, long-name reference at 8 and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (checksum field at 12. The long-name tree is separate from the inode table, with) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (references numbered from zero. A leaf contains 16-bit byte length followed by name) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (bytes, with up to 510 bytes supported by the documented format. Bound name length) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (to both record and block capacity; verify profile-specific long-name checksum rules) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (and reject invalid embedded separators. Dot and dot-dot must reference self and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (parent; graph traversal must avoid loops.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 8) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Publication, consistency and recovery) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(The writer builds modified payload and metadata in unused storage, stages the) Tj
-T* (next system-tree state under the inactive superblock, and flushes those) Tj
-T* (blocks before publishing the new superblock with advanced serial and valid) Tj
-T* (checksum. A crash before publication leaves the old root authoritative; a) Tj
-T* (valid newer committed root selects the new state. Device flush ordering and) Tj
-T* (torn-write behavior must be tested, not assumed from the existence of two) Tj
-T* (copies. Validate both complete candidates independently, never splice roots) Tj
-T* (across generations, and report ambiguous or unsupported serial/geometry) Tj
-T* (states. Native Power-Safe snapshots here are internal consistency views; do) Tj
-T* (not equate them to arbitrary user-visible retained snapshots.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 9 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (8. Allocation bitmap and system area) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (The active superblock's bitmap tree maps one bit to each filesystem block. Padding) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (bits outside actual volume capacity are allocated. The system region is split into) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (two halves, one for each superblock's system metadata. Bitmap and inode tree blocks) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (and their indirect blocks are maintained in the respective system half. Ordinary) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (file data uses the remaining area. Never decide a block is reusable solely from the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (prospective bitmap: blocks reachable through the committed view must remain intact) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (until publication. Compare both roots' metadata ownership and exact revision rules) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (when deciding reclamation.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 9) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Formatting, mutation and defragmentation) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(A formatter must choose endian profile and block size, lay out boot/reserved) Tj
-T* (regions, both superblocks and their system halves, initialize) Tj
-T* (inode/bitmap/name trees and root namespace, and publish validated initial) Tj
-T* (commit state. Mutation replaces affected leaves and all paths to the inactive) Tj
-T* (roots while preserving the live view. Deletion and relocation cannot reclaim) Tj
-T* (blocks still referenced by the previous stable view. Defrag plans must use) Tj
-T* (actual current ownership and CoW space overhead, copy payload, verify final) Tj
-T* (mappings, and commit the corresponding root generation. In-place metadata or) Tj
-T* (data updates that bypass publication violate Power-Safe's design. Exact) Tj
-T* (native formatting and transactional writer details must be established) Tj
-T* (against the original QNX version.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 10 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (9. Publication, consistency and recovery) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (The writer builds modified payload and metadata in unused storage, stages the next) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (system-tree state under the inactive superblock, and flushes those blocks before) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (publishing the new superblock with advanced serial and valid checksum. A crash) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (before publication leaves the old root authoritative; a valid newer committed root) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (selects the new state. Device flush ordering and torn-write behavior must be) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (tested, not assumed from the existence of two copies. Validate both complete) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (candidates independently, never splice roots across generations, and report) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (ambiguous or unsupported serial/geometry states. Native Power-Safe snapshots here) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (are internal consistency views; do not equate them to arbitrary user-visible) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 580 Td (retained snapshots.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 10) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Engineering validation and evidence) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(Exercise both byte orders, standard and MMI layouts, 512/1024/2048/4096-byte) Tj
-T* (blocks, direct and multi-level indirect trees, missing pointers, out-of-range) Tj
-T* (leaves, incompatible geometry, short and long names, deleted entries, invalid) Tj
-T* (inode references, bitmap padding and conflicting superblocks. Inject failures) Tj
-T* (before each data flush, header publication and after commit. Independent) Tj
-T* (mkqnx6fs images and native QNX reading/checking are the interoperability) Tj
-T* (oracle. Source-level reader parity is not writer or physical crash) Tj
-T* (qualification. Original QNX4 media must be rejected rather than interpreted) Tj
-T* (using QNX6 structures.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 11 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (10. Formatting, mutation and defragmentation) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (A formatter must choose endian profile and block size, lay out boot/reserved) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (regions, both superblocks and their system halves, initialize inode/bitmap/name) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (trees and root namespace, and publish validated initial commit state. Mutation) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (replaces affected leaves and all paths to the inactive roots while preserving the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (live view. Deletion and relocation cannot reclaim blocks still referenced by the) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (previous stable view. Defrag plans must use actual current ownership and CoW space) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (overhead, copy payload, verify final mappings, and commit the corresponding root) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (generation. In-place metadata or data updates that bypass publication violate) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (Power-Safe's design. Exact native formatting and transactional writer details must) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 580 Td (be established against the original QNX version.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 11) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (References and implementation boundary) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(Original QNX Power-Safe architecture:) Tj
-T* (https://www.qnx.com/developers/docs/6.5.0SP1.update/com.qnx.doc.neutrino_sys) Tj
-T* (_arch/fsys.html . Reader format notes:) Tj
-T* (https://docs.kernel.org/filesystems/qnx6.html . Layout cross-check:) Tj
-T* (https://codebrowser.dev/linux/linux/include/linux/qnx6_fs.h.html ;) Tj
-T* (implementation: https://github.com/torvalds/linux/tree/v6.12/fs/qnx6 . Exact) Tj
-T* (checksum polynomial/coverage, MMI long-name validation, all superblock flags) Tj
-T* (and writer-specific allocation rules require primary source/fixture) Tj
-T* (validation. The repository's historical migration and design files define) Tj
-T* (intended Common V2 support, not confirmed operational support.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 12 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (11. Engineering validation and evidence) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (Exercise both byte orders, standard and MMI layouts, 512/1024/2048/4096-byte) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (blocks, direct and multi-level indirect trees, missing pointers, out-of-range) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (leaves, incompatible geometry, short and long names, deleted entries, invalid inode) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (references, bitmap padding and conflicting superblocks. Inject failures before each) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (data flush, header publication and after commit. Independent mkqnx6fs images and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (native QNX reading/checking are the interoperability oracle. Source-level reader) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (parity is not writer or physical crash qualification. Original QNX4 media must be) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (rejected rather than interpreted using QNX6 structures.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 12) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.01 0.52 0.56 rg 50 747 116 5 re f
-1 1 1 rg BT /F2 11 Tf 50 807 Td (INFILTRATOR / FILESYSTEM ENGINEERING REFERENCE) Tj ET
-BT /F2 21 Tf 50 775 Td (QNX6 - technical reference) Tj ET
-0.05 0.13 0.22 rg BT /F2 16 Tf 50 715 Td (Historical reference appendices) Tj ET
-BT /F1 11 Tf 15 TL 50 685 Td
-(The following pages preserve both previous documents. Their dated) Tj
-T* (implementation statements are historical evidence, not a qualification claim.) Tj
-ET
-0.05 0.13 0.22 rg BT /F1 9 Tf 50 42 Td (Engineering chapter 13 | Original format, not provider qualification) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (12. Implementation and qualification boundary) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (The independent provider uses Common V2:) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (https://github.com/Infiltrator-Projects/Libraries/blob/main/docs/FILESYSTEM_COMMON_) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (ABI_V2.md . Negotiate actual operation masks and media profiles. Distinguish) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (unsupported, corrupt, I/O and stale-handle results. Require bounded host I/O,) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (exclusive unmounted ownership and durable flush before mutation. Test Media and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (Defragmenter consume the same engine, not separate format parsers. Hosted and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (freestanding binaries, relocation, recovery, BOOT, kernel integration and packages) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (require separate exact-source evidence. Current support belongs to the repository) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (README and qualification records. The intended package paths are) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 580 Td (/System/Filesystems/ and /System/Resources/Documentation/; the reference is not an) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 566 Td (installation or release-status claim.) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 13) Tj ET
 
 %%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 01) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (HISTORY / ORIGINAL DESIGN / DISK FORMAT) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (QNX6 Power-Safe filesystem, distinct from QNX4. This is a design contract,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (not a claim of implemented capabilities.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 630 Tm (Native provider design and original-format reference. No independent runtime) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 614 Tm (provider has yet been qualified.) Tj ET
-BT /F2 11 Tf 0.02 0.50 0.55 rg 1 0 0 1 50 584 Tm (CONCEPTUAL MEDIA MAP - NOT A SECTOR MAP) Tj ET
-0.05 0.36 0.47 rg 50 507 238 62 re f
-BT /F2 11 Tf 1 1 1 rg 1 0 0 1 62 533 Tm (Alternate superblocks) Tj ET
-0.05 0.36 0.47 rg 301 507 238 62 re f
-BT /F2 11 Tf 1 1 1 rg 1 0 0 1 313 533 Tm (Committed roots) Tj ET
-0.05 0.36 0.47 rg 50 431 238 62 re f
-BT /F2 11 Tf 1 1 1 rg 1 0 0 1 62 457 Tm (Inode / bitmap trees) Tj ET
-0.05 0.36 0.47 rg 301 431 238 62 re f
-BT /F2 11 Tf 1 1 1 rg 1 0 0 1 313 457 Tm (Data blocks) Tj ET
-BT /F2 10 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 404 Tm (History / architecture / allocation / integrity / implementation / tests) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 02) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (HISTORICAL CHRONOLOGY) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Power-Safe was introduced with QNX Neutrino 6.4.0 and became the default in) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (6.4.1, according to Linux QNX6 documentation. It uses alternate committed) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (metadata roots and is distinct from QNX4.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 614 Tm (The historic format and the InfiltratorOS implementation are distinct. An) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 598 Tm (external driver or archival utility is evidence, not a qualified production) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 582 Tm (provider.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 552 Tm (https://docs.kernel.org/filesystems/qnx6.html) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 03) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (ORIGINAL ON-DISK ARCHITECTURE) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Endian-aware superblocks, alternative metadata roots, generation/serial) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (state, inode and directory trees, allocation metadata and block mapping. The) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (single native C/C++ engine owns these format semantics; consumers provide) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (bounded Common V2 host services, never competing parsers.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 04) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (ALLOCATION, INTEGRITY AND RECOVERY) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Validate supported layout variants, superblock consistency, checksums and all) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (indirect addresses. Select a valid committed metadata state; do not silently) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (repair inconsistent Power-Safe metadata. Writes require proven transaction) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (semantics. All arithmetic, offsets and lengths are checked before I/O.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (Writable operations require exclusive access, explicit ordering, flush and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (interruption/recovery evidence. Read-only operations leave the medium) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 580 Tm (unchanged.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 05) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (DISK READ PATH / SOURCE EVIDENCE) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Original editable source) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (\(https://github.com/Infiltrator-Projects/Filesystems/blob/101026021d9088d80b7) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (f0f472d9061f0e2c688a3/native/filesystems/qnx6/linux/inode.c\) \(blob) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (3310d1ad4d...\). The inherited source explicitly decodes superblock magic,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (checksum and blocksize using detected disk byte order, then uses separate) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (inode/long-name state. Establish correct selection of the committed) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 580 Tm (Power-Safe superblock and alternate roots, including MMI variants only when) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 564 Tm (proven. Validate indirect pointers and long-file records against media) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 548 Tm (geometry; do not choose an inconsistent generation merely because its serial) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 532 Tm (is newer.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 06) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (COMMON V2 IMPLEMENTATION BOUNDARY) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Only infiltrator_filesystem_api_v2 is public. Target the genuine) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (PROBE/MOUNT/UNMOUNT/STAT/LIST/READ operations first; negotiate actual) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (supported operation masks. VOLUME, METADATA and DEFRAG operations \(including) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (MAP, PLAN, EXECUTE, VERIFY, RECOVER\) are individually qualified or refused.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (Test Media uses the same provider's qualified format and namespace) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (operations. No FUSE, legacy ABI, private driver or kernel proxy. Hosted and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 580 Tm (import-free freestanding profiles share the format engine, with generic) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 564 Tm (environment-specific host services.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 07) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (ENGINEERING ACCEPTANCE / HOST I/O) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (- A valid CORE descriptor with a real PROBE is mandatory. Every optional) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (operation has its own capability bit and non-null qualified callback;) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (unavailable operations have neither. Recognised format, unsupported feature,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (corruption, host I/O failure and stale handles remain distinct outcomes.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 598 Tm (- Use Common's sector-aligned bounded byte helpers. Validate partition) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 582 Tm (extent, logical/physical sector geometry and maximum transfer before reading.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 566 Tm (Serialize overlapping read/modify/write sectors; request explicit flush) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 550 Tm (barriers. Never infer exclusivity from flags alone; require real exclusive) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 534 Tm (unmounted ownership before formatting or raw mutation. Require the Common) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 518 Tm (entropy service when the format needs a unique identity.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 08) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (CONSUMERS / RELOCATION / TEST MEDIA) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (- Qualify hosted and import-free freestanding profiles separately; enforce) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (module identity and trust, exact export set and actual packaged bytes. BOOT) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (and kernel are generic loaders; BOOT uses the same file in) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (/EFI/InfiltratorOS/BOOT/drivers_x64/, with the installed canonical copy in) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (/System/Filesystems/. No per-format .ko/.efi, FUSE, proxy, legacy ABI,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (external formatter or consumer-side parsing substitutes for the engine.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 566 Tm (- Test Media must format and populate through actual V2 FORMAT/CREATE/WRITE) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 550 Tm (operations; an independent formatter/reader may be a test oracle only, never) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 534 Tm (production fallback. Defragmentation maps, plans, execution, verification and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 518 Tm (recovery require independent proof of ownership, data preservation and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 502 Tm (interruption safety. Where not implemented they remain absent.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 09) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (VALIDATION, RECOVERY AND COMPATIBILITY) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (Use independent Power-Safe images, supported endian/layout variants,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (alternate roots and corrupted generations; compare namespace and bytes) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (against an independent reader. Compare file bytes against an independent) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (oracle, hash unchanged read-only images, inject short I/O, corruption and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (interruption; validate exact published module separately in BOOT and kernel.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (Use disposable media only. No new independent binary or test pass is claimed.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 10) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (BUILD, INSTALLATION AND RELEASE) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (The target installation is /System/Filesystems/QNX6.so and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 660 Tm (/System/Resources/Documentation/Filesystem-QNX6.pdf. Neither file is) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 644 Tm (currently distributed by this repository. Once the implementation qualifies,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 628 Tm (the intended release is a portable amd64 DEB and CPU-native source-first RUN,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 612 Tm (with GitHub's automatic source archive. No install or build command is) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 596 Tm (advertised before an executable build exists.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 566 Tm (- New build and implementation code is native C/C++ and shell as appropriate,) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 550 Tm (no Python. The generic amd64 DEB and CPU-native source-downloading RUN are) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 534 Tm (the only manually published release assets; GitHub generates source archives.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 518 Tm (RUN fetches exact versioned source and pinned Common dependency, verifies) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 502 Tm (integrity, compiles natively and installs the selected package; no source) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 486 Tm (archive or DEB embedded. Release immutable exact-main qualification only. No) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 470 Tm (release exists yet.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 749 595 93 re f
-0.04 0.54 0.60 rg 50 747 115 4 re f
-0.78 0.82 0.86 RG 0.6 w 50 50 m 545 50 l S
-BT /F2 9 Tf 0.62 0.86 0.90 rg 1 0 0 1 50 801 Tm (INFILTRATOR / ORIGINAL FILESYSTEM HISTORY AND DESIGN) Tj ET
-BT /F2 19 Tf 1 1 1 rg 1 0 0 1 50 771 Tm (QNX6 Power-Safe filesystem) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 / engineering reference) Tj ET
-BT /F1 8 Tf 0.07 0.16 0.23 rg 1 0 0 1 512 34 Tm (PAGE 11) Tj ET
-BT /F2 14 Tf 0.02 0.45 0.50 rg 1 0 0 1 50 711 Tm (PRIMARY SOURCES AND IMPLEMENTATION STATUS) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 676 Tm (https://docs.kernel.org/filesystems/qnx6.html) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 646 Tm () Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 630 Tm (https://github.com/Infiltrator-Projects/Filesystems/tree/101026021d9088d80b7f) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 614 Tm (0f472d9061f0e2c688a3/native/filesystems/qnx6) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 584 Tm () Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 568 Tm (https://github.com/Infiltrator-Projects/Libraries/blob/main/docs/FILESYSTEM_C) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 552 Tm (OMMON_ABI_V2.md) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 522 Tm (Independent QNX6 images, conflicting superblocks, invalid checksums and) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 506 Tm (interrupted publication. Compare independent payloads and unchanged-image) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 490 Tm (hashes; inject truncation, corruption and I/O faults. Establish) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 474 Tm (exact-revision ABI, hosted and import-free freestanding qualification, then) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 458 Tm (independently test BOOT and kernel integration. No local build, runtime or) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 442 Tm (packaging qualification is claimed.) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 412 Tm (Source extraction, implementation and release qualification remain) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 396 Tm (outstanding. This is a source-backed engineering reference, not a complete) Tj ET
-BT /F1 10.2 Tf 0.07 0.16 0.23 rg 1 0 0 1 50 380 Tm (original specification.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 750 595 92 re f
-0.03 0.53 0.58 rg 50 747 120 4 re f
-0.75 0.82 0.86 RG .7 w 50 49 m 545 49 l S
-BT /F2 9 Tf 0.62 0.88 0.91 rg 1 0 0 1 50 803 Tm (INFILTRATOR / FILESYSTEM DESIGN & QUALIFICATION) Tj ET
-BT /F2 17 Tf 1 1 1 rg 1 0 0 1 50 773 Tm (QNX6 - format and architecture) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 | Design-stage reference | 72729beec8ab) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 505 34 Tm (PAGE 01) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 706 Tm (STATUS / DESIGN CONTRACT) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 681 Tm (This repository is at the design stage. No independent runtime provider, installation) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 665 Tm (package or qualified filesystem operations are claimed. This document is not an) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 649 Tm (installation or user manual.) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 614 Tm (Format scope) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 589 Tm (QNX6 Power-Safe filesystem, distinct from QNX4. This is a design contract, not a) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 573 Tm (claim of implemented capabilities.) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 538 Tm (On-disk structures and ownership) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 513 Tm (Endian-aware superblocks, alternative metadata roots, generation/serial state, inode) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 497 Tm (and directory trees, allocation metadata and block mapping. The single native C/C++) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 481 Tm (engine owns these format semantics; consumers provide bounded Common V2 host) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 465 Tm (services, never competing parsers.) Tj ET
-BT /F2 11 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 430 Tm (Conceptual provider boundary \(planned\)) Tj ET
-0.91 0.95 0.96 rg 50 385 110 30 re f
-BT /F2 9 Tf 0.08 0.16 0.23 rg 1 0 0 1 57 396 Tm (Native media) Tj ET
-0.03 0.53 0.58 RG 1 w 162 400 m 176 400 l S
-0.91 0.95 0.96 rg 178 385 110 30 re f
-BT /F2 9 Tf 0.08 0.16 0.23 rg 1 0 0 1 185 396 Tm (Bounded host I/O) Tj ET
-0.03 0.53 0.58 RG 1 w 290 400 m 304 400 l S
-0.91 0.95 0.96 rg 306 385 110 30 re f
-BT /F2 9 Tf 0.08 0.16 0.23 rg 1 0 0 1 313 396 Tm (Native engine) Tj ET
-0.03 0.53 0.58 RG 1 w 418 400 m 432 400 l S
-0.91 0.95 0.96 rg 434 385 110 30 re f
-BT /F2 9 Tf 0.08 0.16 0.23 rg 1 0 0 1 441 396 Tm (Common V2) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 750 595 92 re f
-0.03 0.53 0.58 rg 50 747 120 4 re f
-0.75 0.82 0.86 RG .7 w 50 49 m 545 49 l S
-BT /F2 9 Tf 0.62 0.88 0.91 rg 1 0 0 1 50 803 Tm (INFILTRATOR / FILESYSTEM DESIGN & QUALIFICATION) Tj ET
-BT /F2 17 Tf 1 1 1 rg 1 0 0 1 50 773 Tm (QNX6 - integrity and failure) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 | Design-stage reference | 72729beec8ab) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 505 34 Tm (PAGE 02) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 706 Tm (Integrity and mutation invariants) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 681 Tm (Validate supported layout variants, superblock consistency, checksums and all indirect) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 665 Tm (addresses. Select a valid committed metadata state; do not silently repair) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 649 Tm (inconsistent Power-Safe metadata. Writes require proven transaction semantics. All) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 633 Tm (arithmetic, offsets and lengths are checked before I/O. Writable operations require) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 617 Tm (exclusive access, explicit ordering, flush and interruption/recovery evidence.) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 601 Tm (Read-only operations leave the medium unchanged.) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 566 Tm (Failure and ownership policy) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 541 Tm (Validate before following on-disk references. Unsupported feature combinations,) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 525 Tm (malformed media, unavailable operations and host failures are distinct outcomes.) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 509 Tm (Mutation requires the ownership and ordering conditions in the design; read-only) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 493 Tm (operations must leave the source image unchanged.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 750 595 92 re f
-0.03 0.53 0.58 rg 50 747 120 4 re f
-0.75 0.82 0.86 RG .7 w 50 49 m 545 49 l S
-BT /F2 9 Tf 0.62 0.88 0.91 rg 1 0 0 1 50 803 Tm (INFILTRATOR / FILESYSTEM DESIGN & QUALIFICATION) Tj ET
-BT /F2 17 Tf 1 1 1 rg 1 0 0 1 50 773 Tm (QNX6 - interface and qualification) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 | Design-stage reference | 72729beec8ab) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 505 34 Tm (PAGE 03) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 706 Tm (Common V2 boundary) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 681 Tm (Only infiltrator_filesystem_api_v2 is public. Target the genuine) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 665 Tm (PROBE/MOUNT/UNMOUNT/STAT/LIST/READ operations first; negotiate actual) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 649 Tm (supported operation masks. VOLUME, METADATA and DEFRAG operations \(including) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 633 Tm (MAP, PLAN, EXECUTE, VERIFY, RECOVER\) are individually qualified or refused.) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 617 Tm (Test Media uses the same provider's qualified format and namespace operations. No) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 601 Tm (FUSE, legacy ABI, private driver or kernel proxy. Hosted and import-free) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 585 Tm (freestanding profiles share the format engine, with generic environment-specific host) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 569 Tm (services.) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 534 Tm (Independent qualification) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 509 Tm (Use independent Power-Safe images, supported endian/layout variants, alternate) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 493 Tm (roots and corrupted generations; compare namespace and bytes against an independent) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 477 Tm (reader. Compare file bytes against an independent oracle, hash unchanged read-only) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 461 Tm (images, inject short I/O, corruption and interruption; validate exact published module) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 445 Tm (separately in BOOT and kernel. Use disposable media only. No new independent binary) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 429 Tm (or test pass is claimed.) Tj ET
-
-%%Page
-0.05 0.13 0.22 rg 0 750 595 92 re f
-0.03 0.53 0.58 rg 50 747 120 4 re f
-0.75 0.82 0.86 RG .7 w 50 49 m 545 49 l S
-BT /F2 9 Tf 0.62 0.88 0.91 rg 1 0 0 1 50 803 Tm (INFILTRATOR / FILESYSTEM DESIGN & QUALIFICATION) Tj ET
-BT /F2 17 Tf 1 1 1 rg 1 0 0 1 50 773 Tm (QNX6 - engineering acceptance) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 50 34 Tm (Filesystem-QNX6 | Design-stage reference | 72729beec8ab) Tj ET
-BT /F1 8 Tf 0.34 0.4 0.44 rg 1 0 0 1 505 34 Tm (PAGE 04) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 706 Tm (Engineering and release acceptance) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 681 Tm (- A valid CORE descriptor with a real PROBE is mandatory. Every optional operation) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 665 Tm (has its own capability bit and non-null qualified callback; unavailable operations have) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 649 Tm (neither. Recognised format, unsupported feature, corruption, host I/O failure and) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 633 Tm (stale handles remain distinct outcomes. - Use Common's sector-aligned bounded byte) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 617 Tm (helpers. Validate partition extent, logical/physical sector geometry and maximum) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 601 Tm (transfer before reading. Serialize overlapping read/modify/write sectors; request) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 585 Tm (explicit flush barriers. Never infer exclusivity from flags alone; require real exclusive) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 569 Tm (unmounted ownership before formatting or raw mutation. Require the Common entropy) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 553 Tm (service when the format needs a unique identity. - Qualify hosted and import-free) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 537 Tm (freestanding profiles separately; enforce module identity and trust, exact export set) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 521 Tm (and actual packaged bytes. BOOT and kernel are generic loaders; BOOT uses the same) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 505 Tm (file in /EFI/InfiltratorOS/BOOT/drivers_x64/, with the installed canonical copy in) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 489 Tm (/System/Filesystems/. No per-format .ko/.efi, FUSE, proxy, legacy ABI, external) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 473 Tm (formatter or consumer-side parsing substitutes for the engine. - Test Media must) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 457 Tm (format and populate through actual V2 FORMAT/CREATE/WRITE operations; an) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 441 Tm (independent formatter/reader may be a test oracle only, never production fallback.) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 425 Tm (Defragmentation maps, plans, execution, verification and recovery require independent) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 409 Tm (proof of ownership, data preservation and interruption safety. Where not implemented) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 393 Tm (they remain absent. - New build and implementation code is native C/C++ and shell as) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 377 Tm (appropriate, no Python. The generic amd64 DEB and CPU-native source-downloading) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 361 Tm (RUN are the only manually published release assets; GitHub generates source) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 345 Tm (archives. RUN fetches exact versioned source and pinned Common dependency, verifies) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 329 Tm (integrity, compiles natively and installs the selected package; no source archive or) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 313 Tm (DEB embedded. Release immutable exact-main qualification only. No release exists yet.) Tj ET
-BT /F2 12 Tf 0.02 0.48 0.52 rg 1 0 0 1 50 278 Tm (Source and authority) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 253 Tm (Prepared from README.md and native/filesystems/qnx6/DESIGN.md at revision) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 237 Tm (72729beec8ab7be15364ffc3b7c0c716b674717f. The editable Markdown design and) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 221 Tm (migration status are authoritative. No test result, release or implemented capability) Tj ET
-BT /F1 10.5 Tf 0.08 0.16 0.23 rg 1 0 0 1 50 205 Tm (is inferred from this reference.) Tj ET
+0.06 0.15 0.23 rg 0 768 595 74 re f
+1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
+BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
+0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (13. References and implementation boundary) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (Original QNX Power-Safe architecture:) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (https://www.qnx.com/developers/docs/6.5.0SP1.update/com.qnx.doc.neutrino_sys_arch/f) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (sys.html . Reader format notes: https://docs.kernel.org/filesystems/qnx6.html .) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (Layout cross-check:) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (https://codebrowser.dev/linux/linux/include/linux/qnx6_fs.h.html ; implementation:) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (https://github.com/torvalds/linux/tree/v6.12/fs/qnx6 . Exact checksum) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (polynomial/coverage, MMI long-name validation, all superblock flags and) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 608 Td (writer-specific allocation rules require primary source/fixture validation. The) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 594 Td (repository's historical migration and design files define intended Common V2) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 580 Td (support, not confirmed operational support.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 556 Td (The retained reader decodes magic, checksum and block size under detected disk byte) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 542 Td (order, with separate inode and long-name state; qualify MMI only with) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 528 Td (variant-specific evidence.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 504 Td (Retained source:) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 490 Td (https://github.com/Infiltrator-Projects/Filesystems/blob/101026021d9088d80b7f0f472d) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 476 Td (9061f0e2c688a3/native/filesystems/qnx6/linux/inode.c \(blob 3310d1ad4d\).) Tj ET
+0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 14) Tj ET
