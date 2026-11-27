@@ -1,17 +1,15 @@
-# QNX6 Common V2 migration status
+# QNX6 Common V2 migration
 
-## Source and ownership
+Independent read-only development candidate: standard little/big-endian
+and Audi MMI superblock layouts, paired CRC-verified superblocks,
+committed serial selection, bounded direct/indirect pointer trees,
+nested names and longname storage, native file reads, link metadata
+and volume geometry. Hosted and freestanding AMD64 profiles are built
+from the same provider source; the single hosted carrier contains the
+qualified embedded firmware image.
 
-[Exact central source baseline](https://github.com/Infiltrator-Projects/Filesystems/tree/101026021d9088d80b7f0f472d9061f0e2c688a3/native/filesystems/qnx6). Editable Linux v6.12.107-derived source remains centrally. Extract and adapt the existing implementation; preserve original licensing, attribution and provenance. New project-authored code uses GPL-3.0-or-later. No source transferred by this documentation commit.
-
-## Qualification plan
-
-1. Enumerate supported on-disk variants, validate geometry and features; implement bounded CORE probe.
-2. Provide CORE mount/stat/list/read and VOLUME query using native superblock selection, byte order, snapshot consistency, inode trees, block mapping and checksums.
-3. Test independent QNX6 images, conflicting superblocks, invalid checksums and interrupted publication; compare independent payloads and unchanged-image hashes; inject malformed media and I/O faults.
-4. Implement mutation, format, check/repair and DEFRAG map/plan/execute/verify/recover only with proven allocation, durability and interruption/recovery semantics. Unsupported operations must refuse before writing.
-5. Qualify exact packaged Common V2 ABI, hosted and import-free freestanding profiles, then actual BOOT and kernel integration independently.
-
-All independent stages, PDF manual and packaging are pending. No runtime capability is claimed.
-
-The [design and qualification reference](docs/QNX6.pdf) is available. It is not an operational manual; release and installation qualification remain pending.
+Byte-authored fixtures exercise the above and malformed media, but
+are not third-party images. Actual CI is authoritative. Independent
+real-media comparison, native firmware boot, bitmap ownership
+reconciliation, sparse semantics, writable transactions, formatting,
+defragmentation and publication are outstanding and not advertised.
