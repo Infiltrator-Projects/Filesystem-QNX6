@@ -59,6 +59,15 @@ static void *allocate(void *c,size_t n){(void)c;void *p=malloc(n);if(p)++allocs;
 static void release(void *c,void *p){(void)c;if(p){assert(allocs);--allocs;free(p);}}
 int main(int argc,char **argv)
 {
+    if(argc==4&&!strcmp(argv[1],"--emit")){
+        fixture(1,1);
+        FILE *img=fopen(argv[2],"wb"),*proof=fopen(argv[3],"wb");
+        assert(img&&proof);
+        assert(fwrite(disk,1,sizeof disk,img)==sizeof disk);
+        assert(fwrite(blk(10),1,512,proof)==512&&fwrite(blk(20),1,188,proof)==188);
+        assert(!fclose(img)&&!fclose(proof));
+        return 0;
+    }
     assert(argc==2);void *lib=dlopen(argv[1],RTLD_NOW|RTLD_LOCAL);if(!lib){puts(dlerror());return 1;}
     IfsFsModuleApiEntryV2 entry;*(void **)(&entry)=dlsym(lib,IFS_FS_COMMON_EXPORT_V2);assert(entry);
     const IfsFsModuleApiV2 *api=entry();assert(ifs_fs_api_v2_valid(api,"qnx6"));
