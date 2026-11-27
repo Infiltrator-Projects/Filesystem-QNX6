@@ -4,8 +4,6 @@
 
 QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in 6.4.1. It replaces QNX4's extent-based in-place update model with a copy-on-write publication model. The filesystem keeps two superblock-rooted committed views and prepares the next view without destroying the previous live one. The ordinary profile and Audi MMI 3G variant have different superblock placement/layout. Both little- and big-endian filesystems exist; determine byte order from validated format markers, not host architecture.
 
-Power-Safe arrived in QNX Neutrino 6.4.0 and became the default in 6.4.1, according to Linux QNX6 documentation. The alternate committed roots are distinct from QNX4's extent model.
-
 ## Block geometry and superblock positions
 
 Admitted logical block sizes are 512, 1024, 2048 and 4096 bytes. In the standard profile the boot area is 8192 bytes, primary superblock at 0x2000, reserved superblock area 4096 bytes and logical block zero at 0x3000. The MMI variant starts its first superblock at byte zero, so block zero begins after its reserved area. A superblock's encoded record is 512 bytes even when the reserved region is larger. The second copy is located from validated declared block count and profile geometry, with alignment requirements checked independently. Pointers are 32-bit block indices; 0xffffffff is unused, not an address. Never include a reserved superblock area in the data allocator.

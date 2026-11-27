@@ -22,16 +22,13 @@ BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
 1 1 1 rg BT /F2 10 Tf 43 811 Td (INFILTRATOR / FILESYSTEM ENGINEERING) Tj ET
 BT /F2 22 Tf 43 784 Td (QNX6 - technical reference) Tj ET
 0.08 0.14 0.20 rg BT /F2 15 Tf 43 736 Td (1. History and design model) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in 6.4.1. It) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (replaces QNX4's extent-based in-place update model with a copy-on-write publication) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (model. The filesystem keeps two superblock-rooted committed views and prepares the) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (next view without destroying the previous live one. The ordinary profile and Audi) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (MMI 3G variant have different superblock placement/layout. Both little- and) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (big-endian filesystems exist; determine byte order from validated format markers,) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (not host architecture.) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 598 Td (Power-Safe arrived in QNX Neutrino 6.4.0 and became the default in 6.4.1, according) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 584 Td (to Linux QNX6 documentation. The alternate committed roots are distinct from QNX4's) Tj ET
-0.08 0.14 0.20 rg BT /F3 10 Tf 43 570 Td (extent model.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 706 Td (QNX6 Power-Safe appeared in QNX Neutrino 6.4.0 and became the default in 6.4.1.) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 692 Td (It replaces QNX4's extent-based in-place update model with a copy-on-write) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 678 Td (publication model. The filesystem keeps two superblock-rooted committed views) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 664 Td (and prepares the next view without destroying the previous live one. The) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 650 Td (ordinary profile and Audi MMI 3G variant have different superblock) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 636 Td (placement/layout. Both little- and big-endian filesystems exist; determine byte) Tj ET
+0.08 0.14 0.20 rg BT /F3 10 Tf 43 622 Td (order from validated format markers, not host architecture.) Tj ET
 0.2 0.3 0.4 rg BT /F1 9 Tf 43 32 Td (Historical development and engineering reference | 2) Tj ET
 
 %%Page
