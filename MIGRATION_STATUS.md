@@ -9,7 +9,10 @@ from the same provider source; the single hosted carrier contains the
 qualified embedded firmware image.
 
 Byte-authored fixtures exercise the above and malformed media, but
-are not third-party images. Actual CI is authoritative. Independent
+are not third-party images. Hosted and firmware profiles passed the
+read-only and sanitizer qualification
+(https://github.com/Infiltrator-Projects/Filesystem-QNX6/actions/runs/45947389041).
+Independent
 real-media comparison, native firmware boot, bitmap ownership
 reconciliation, sparse semantics, writable transactions, formatting,
 defragmentation and publication are outstanding and not advertised.
